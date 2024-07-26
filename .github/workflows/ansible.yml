@@ -23,8 +23,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - run: env
-      
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -68,6 +66,7 @@ jobs:
             inventory         = ./hosts.txt
 
       - name: Remove ingress rule for security group
+        if: always()
         run: |
           aws ec2 revoke-security-group-ingress \
             --group-id $RDS_SG_ID \
